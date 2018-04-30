@@ -16,19 +16,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'peter'
 api = Api(app)
 
-@app.before_first_request
-def create_table():
-    db.create_all()
-
 
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800) # expired in 30 minutes
 
 jwt = JWT(app,authenticate,identity)
 
-        # JWT will create a new end point call '/auth' with POST method
-        # 1. when we call /auth give username and password send to authenticate function
-        # 2. in authenticate funtion will get the user and compare the password
-        # 3. if match return the user
+# JWT will create a new end point call '/auth' with POST method
+# 1. when we call /auth give username and password send to authenticate function
+# 2. in authenticate funtion will get the user and compare the password
+# 3. if match return the user
 
 
 api.add_resource(ItemRes,'/item/<string:name>')
@@ -43,4 +39,4 @@ api.add_resource(StoreListRes,'/stores')
 if __name__ == '__main__':
     from db import db
     db.init_app(app)
-    app.run()
+    app.run(port=5000, debug=True)
